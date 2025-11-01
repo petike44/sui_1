@@ -44,4 +44,13 @@ fun init(ctx: &mut TxContext) {
     total_tips_received: 0,
     tip_count: 0,
     }
+
+    let tip_jar_id: ID = object::id(obj: &tip_jar);
+    
+    event::emit(event:TipJarCreated {
+        tip_jar_id,
+        owner
+    });
+
+    transfer::share_object(obj: tip_jar);
 }
