@@ -1,6 +1,6 @@
 /*
-/// Module: sui_1
-module sui_1::sui_1;
+/// Module: tip_jar
+module tip_jar::tip_jar;
 */
 
 // For Move coding conventions, see
