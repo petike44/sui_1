@@ -34,3 +34,25 @@ module tip_jar::tip_jar_tests {
        test_scenario::commit(scenario);
     }
 }
+
+#[test]
+fun test_send_tip_basic() {
+    let mut scenario = test_scenario::begin(OWNER);
+    
+    {
+        let ctx: test_scenario::ctx(&mut scenario);
+        tip_jar::init_for_testing(ctx);
+    };
+
+    test_scenario::next_tx(&mut scenario, TIPPER_1);
+
+    {
+        let ctx: test_scenario::ctx(&mut scenario);
+        let mut tip_jar = test_scenario::take_shared<TipJar>(&scenario);
+        let tip_coin = create_test_coin(1_000_000_000, ctx);
+    };
+}
+
+// 1_000_000_000 SUI = 1 SUI
+// 500_000_000 SUI = 0.5 SUI
+// 1_250_000_000 SUI = 1.25 SUI
