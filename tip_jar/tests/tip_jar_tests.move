@@ -1,3 +1,7 @@
+// 1_000_000_000 SUI = 1 SUI
+// 500_000_000 SUI = 0.5 SUI
+// 1_250_000_000 SUI = 1.25 SUI
+
 #[test_only]
 module tip_jar::tip_jar_tests {
     use sui::test_scenario::{Self}
@@ -50,9 +54,20 @@ fun test_send_tip_basic() {
         let ctx: test_scenario::ctx(&mut scenario);
         let mut tip_jar = test_scenario::take_shared<TipJar>(&scenario);
         let tip_coin = create_test_coin(1_000_000_000, ctx);
+
+        tip_jar::send_tip(&mut tip_jar, tip_coin, ctx);
+        assert!(tip_jar::get_total_tips(&tip_jar) == 1_000_000_000, 0);
+        assert!(tip_jar::get_tip_count(&tip_jar) == 1, 1);
+
+        test_scenario::return_shared(tip_jar);
     };
+    
+    test_scenario::next_tx(&mut scenario, OWNER);
+    {
+        let received_coin = test_scenario::take_from_sender<Coin<SUI>>(&scenario);
+        assert!(coin::value(&received_coin) == 1_000_000_000, 2);
+        test_scenario::return_to_sender(&scenario, received_coin);
+    };
+    test_scenario::end(scenario);
 }
 
-// 1_000_000_000 SUI = 1 SUI
-// 500_000_000 SUI = 0.5 SUI
-// 1_250_000_000 SUI = 1.25 SUI
