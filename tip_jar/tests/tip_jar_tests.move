@@ -26,7 +26,7 @@ fun test_init_creates_tip_jar() {
     let tip_jar = test_scenario::take_shared<TipJar>(&scenario);
  
     assert!(tip_jar::get_owner(&tip_jar) == OWNER, 0);
-    assert!(tip_jar::get_total_tips(&tip_jar) == 0, 1);
+    assert!(tip_jar::get_total_tips_received(&tip_jar) == 0, 1);
     assert!(tip_jar::get_tip_count(&tip_jar) == 0, 2);
     assert!(tip_jar::is_owner(&tip_jar, OWNER) == true, 3);
     assert!(tip_jar::is_owner(&tip_jar, TIPPER_1) == false, 4);
@@ -52,7 +52,7 @@ fun test_send_tip_basic() {
  
         tip_jar::send_tip(&mut tip_jar, tip_coin, ctx);
  
-        assert!(tip_jar::get_total_tips(&tip_jar) == 1_000_000_000, 0);
+        assert!(tip_jar::get_total_tips_received(&tip_jar) == 1_000_000_000, 0);
         assert!(tip_jar::get_tip_count(&tip_jar) == 1, 1);
  
         test_scenario::return_shared(tip_jar);
@@ -87,7 +87,7 @@ fun test_multiple_tips() {
  
         tip_jar::send_tip(&mut tip_jar, tip_coin, ctx);
  
-        assert!(tip_jar::get_total_tips(&tip_jar) == 500_000_000, 0);
+        assert!(tip_jar::get_total_tips_received(&tip_jar) == 500_000_000, 0);
         assert!(tip_jar::get_tip_count(&tip_jar) == 1, 1);
  
         test_scenario::return_shared(tip_jar);
@@ -102,7 +102,7 @@ fun test_multiple_tips() {
  
         tip_jar::send_tip(&mut tip_jar, tip_coin, ctx);
  
-        assert!(tip_jar::get_total_tips(&tip_jar) == 2_000_000_000, 0);
+        assert!(tip_jar::get_total_tips_received(&tip_jar) == 2_000_000_000, 0);
         assert!(tip_jar::get_tip_count(&tip_jar) == 2, 1);
  
         test_scenario::return_shared(tip_jar);
