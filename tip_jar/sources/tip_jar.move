@@ -13,14 +13,14 @@ use sui::sui::SUI;
  
 const EInvalidTipAmount: u64 = 1;
  
-public struct TipJar has key {
+public struct TipJar has key { //key means it can be stored in an object, unique identity
     id: UID,
     owner: address,
     total_tips_received: u64,
     tip_count: u64,
 }
  
-public struct TipSent has copy, drop {
+public struct TipSent has copy, drop { //copy and drop mean it can be copied and discarded
     tipper: address,
     amount: u64,
     total_tips_received: u64,
@@ -78,4 +78,13 @@ public fun get_total_tips_received(tip_jar: &TipJar): u64 {
 
 public fun get_tip_count(tip_jar: &TipJar): u64 {
     tip_jar.tip_count
+}
+
+public fun is_owner(tip_jar: &TipJar, addr: address): bool {
+    tip_jar.owner == addr
+}
+
+#[test_only]
+public fun init_for_testing(ctx: &mut TxContext) {
+    init(ctx);
 }
