@@ -70,4 +70,27 @@ fun test_send_tip_basic() {
     };
     test_scenario::end(scenario);
 }
+#[test]
+fun test_multiple_tips() {
+    let mut scenario = test_scenario::begin(OWNER);
+    {
+        let ctx: test_scenario::ctx(&mut scenario);
+        tip_jar::init_for_testing(ctx);
+    };
 
+    /// first tipper 0.5 SUI
+    test_scenario::next_tx(&mut scenario, TIPPER_1);
+    {
+        let mut tip_jar = test_scenario::take_shared<TipJar>(&scenario);
+        let ctx: test_scenario::ctx(&mut scenario);
+
+        let tip_coin = create_test_coin(500_000_000, ctx);
+
+        tip_jar::send_tip(&mut tip_jar, tip_coin, ctx);
+
+        assert!(tip_jar::get_total_tips(&tip_jar) == 500_000_000, 0);
+        assert!(tip_jar::get_tip_count(&tip_jar) == 1, 1);
+
+        test_scenario::return_shared(tip_jar);
+    }
+}
