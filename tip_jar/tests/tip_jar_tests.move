@@ -12,4 +12,16 @@ module tip_jar::tip_jar_tests {
     fun create_test_coin(amount: u64, ctx: &mut TxContext): Coin<SUI> {
         coin::mint_for_testing<SUI>(amount, ctx) 
     }
+
+    #[test]
+    fun test_init_creates_tip_jar() {
+        let mut scenario = test_scenario::begin(OWNER);
+        let ctx: test_scenario::ctx(&mut scenario);
+
+       let tip_jar::init_for_testing(ctx);
+
+       test_scenario::next_tx(&mut scenario, OWNER);
+
+       let tip_jar = test_sceanario::take_shared_object::<TipJar>(&mut scenario);
+    }
 }
