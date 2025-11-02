@@ -67,3 +67,15 @@ public fun send_tip(tip_jar: &mut TipJar, payment: Coin<SUI>, ctx: &mut TxContex
         tip_count: tip_jar.tip_count,
     });
 }
+
+public fun get_owner(tip_jar: &TipJar): address { /// Get the owner of the tip jar
+    tip_jar.owner ///no need for return keyword
+}
+
+public fun get_total_tips_received(tip_jar: &TipJar): u64 {
+    tip_jar.total_tips_received
+}
+
+public fun get_tip_count(tip_jar: &TipJar): u64 {
+    tip_jar.tip_count
+}
