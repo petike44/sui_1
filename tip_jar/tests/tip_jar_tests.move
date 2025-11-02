@@ -23,5 +23,14 @@ module tip_jar::tip_jar_tests {
        test_scenario::next_tx(&mut scenario, OWNER);
 
        let tip_jar = test_sceanario::take_shared_object::<TipJar>(&mut scenario);
+
+       assert!(tipjar::get_owner(&tip_jar)  == OWNER, 0);
+       assert!(tipjar::get_total_tips(&tip_jar) == 0, 1);
+       assert!(tip_jar::get_tip_count(&tip_jar) == 0, 2);
+       assert!(tip_jar::is_owner(&tip_jar, OWNER) == true, 3);
+       assert!(tip_jar::is_owner(&tip_jar, TIPPER_1) == false, 4);
+
+       test_scenario::return_shared(tip_jar);
+       test_scenario::commit(scenario);
     }
 }
